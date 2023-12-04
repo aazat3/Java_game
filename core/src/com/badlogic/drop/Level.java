@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 public class Level extends Group {
+    static Drop game;
     Element element;
     static Element neighbor;
     static Element[][] elements;
@@ -37,8 +38,10 @@ public class Level extends Group {
 //            }
 //        }
 
-        FileHandle file = Gdx.files.absolute("C:\\Users\\atavl\\OneDrive\\Рабочий стол\\учеба\\Парадигмы программирования\\Курсовая\\Drop\\assets\\level_1.txt");
-        String text = file.readString();
+//        FileHandle file = Gdx.files.absolute("C:\\Users\\atavl\\OneDrive\\Рабочий стол\\учеба\\Парадигмы программирования\\Курсовая\\Drop\\assets\\level_1.txt");
+//        FileHandle file = Menu.getLevel();
+//        String text = file.readString();
+        String text = Menu.getLevel();
         String[] parts = text.split(" ");
         for (int i = 0; i < parts.length; i+=3){
             element = new Element(Integer.parseInt(parts[i]), Integer.parseInt(parts[i+1]), parts[i+2]);
@@ -180,9 +183,13 @@ public class Level extends Group {
 //        System.out.println(trueElementCount);
 //        System.out.println(elementCount);
         if(trueElementCount == elementCount){
-            System.out.println("WIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+            My_game.completeLevel();
         }
+    }
+
+    public void newLevel(){
+        game.setScreen(new Menu(game)); // Не забыть освободить память
+
     }
 
     void getLevelInfo(){
