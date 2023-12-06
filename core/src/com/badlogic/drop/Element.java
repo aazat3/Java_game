@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Array;
 import java.util.stream.IntStream;
 
 public class Element extends Actor{
-
     Image image;
     int x;
     int y;
@@ -24,6 +23,7 @@ public class Element extends Actor{
     int truePosition;
     int ends [];
     boolean trueElement = false;
+    boolean mouseM = false;
 
     Element(int x, int y, String pathImage){
         if (pathImage.equals("pict_1.png")){
@@ -31,9 +31,11 @@ public class Element extends Actor{
         } else if (pathImage.equals("pict_2.png")) {
             ends =  new int[]{0,1,0,0};
         }else if (pathImage.equals("pict_3.png")) {
-            ends =  new int[]{1,1,1,0};
+            ends =  new int[]{0,1,1,1};
         }else if (pathImage.equals("pict_4.png")) {
-            ends =  new int[]{0,0,1,1};
+            ends =  new int[]{0,1,1,0};
+        }else if (pathImage.equals("pict_5.png")) {
+            ends =  new int[]{1,1,1,1};
         }
         for (int end : ends)
             falsePosition += end;
@@ -51,22 +53,21 @@ public class Element extends Actor{
         addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 addRotation();
-
-                //System.out.println("down");
                 return true;
             }
-
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                //System.out.println("up");
+            public boolean mouseMoved (InputEvent event, float x, float y) {
+                mouseM = true;
+                return true;
             }
         });
+        this.setSize(50,50);
     }
-
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
         Color color = getColor();
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+//        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        batch.setColor(1f, 1f, 1f, 0.6f); // тут цвета элементов
         batch.draw(region, getX(), getY(), getOriginX()+getWidth()/2, getOriginY()+getHeight()/2,
                 getWidth(), getHeight(), getScaleX(), getScaleY(), position*90);
     }
@@ -89,14 +90,9 @@ public class Element extends Actor{
         ends[2] = Math.abs(ends[1]);
         ends[1] = Math.abs(z);
         Level.checkNeighbor(this);
-//        for (int i = 0; i < ends.length; i+=1) {
-//            System.out.println(ends[i]);
-//        }
     }
 
     void truePosition(){
-//        System.out.println("lllllllllllllllllllllllll");
-
         truePosition = 0;
         for (int end : ends)
             truePosition += end;
@@ -104,9 +100,5 @@ public class Element extends Actor{
             trueElement = true;
         } else
             trueElement = false;
-//        System.out.println(truePosition);
-//        System.out.println(falsePosition);
     }
-
-
 }

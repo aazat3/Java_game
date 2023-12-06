@@ -1,1 +1,1 @@
-1 1 pict_2.png 2 2 pict_2.png 1 2 pict_4.png 3 2 pict_4.png 3 1 pict_4.png 4 2 pict_2.png 4 1 pict_2.png
+4 5 pict_2.png 5 5 pict_4.png 5 6 pict_2.png
