@@ -30,19 +30,19 @@ public class Level extends Group {
     static String levelInfo;
     static String newLevelName;
     static FileHandle file;
+    float screenWidth = Gdx.graphics.getWidth();
+    float screenHeight = Gdx.graphics.getHeight();
 
     Level(Drop game, int levelNumber){
-        this.game = game;
-        this.levelNumber = levelNumber;
+        Level.game = game;
+        Level.levelNumber = levelNumber;
         levelInfo = getLevel(levelNumber);
         elements = new Element[11][11];
         group = new Group();
-//        group.setSize(group.getWidth(), group.getHeight());
-        this.setSize(500, 500);
         group.clear();
 //        String text = Menu.getLevel();
         String[] parts = levelInfo.split(" ");
-
+//        String[] parts = {"1", "2", "pict_2.png"};
         for (int i = 0; i < parts.length; i+=3){
             element = new Element(Integer.parseInt(parts[i]), Integer.parseInt(parts[i+1]), parts[i+2]);
             elements [Integer.parseInt(parts[i])][Integer.parseInt(parts[i+1])] = element;
@@ -53,7 +53,7 @@ public class Level extends Group {
         elementCount = parts.length/3;
         group.setOrigin(250, 250);
 //        group.setPosition(1920/2Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
-        group.setPosition(1920/2-50*5, 1080/2-50*5);
+        group.setPosition(screenWidth/2-70*5, screenHeight/2-70*5);
         allElementCheck();
 
     }
@@ -66,9 +66,9 @@ public class Level extends Group {
                     Random r = new Random();
                     int x = r.nextInt(4)+1 ;
                     for (int xx = 0; xx < x; xx += 1) {
-                        elements[i][j].addRotation();
+                        elements[i][j].startRotation();
                     }
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 }
             }
         }
@@ -82,7 +82,7 @@ public class Level extends Group {
                     neighbor.ends[0] = 1; // рассоединяем
                     neighbor.truePosition();
                 }
-            } catch (Exception ex){
+            } catch (Exception ignored){
             }
         }
         if (Math.abs(element.ends[0]) == 1) {
@@ -92,7 +92,7 @@ public class Level extends Group {
                     neighbor.ends[1] = 1;
                     neighbor.truePosition();
                 }
-            } catch (Exception ex){
+            } catch (Exception ignored){
             }
         }
         if (Math.abs(element.ends[1]) == 1) {
@@ -102,7 +102,7 @@ public class Level extends Group {
                     neighbor.ends[2] = 1;
                     neighbor.truePosition();
                 }
-            } catch (Exception ex){
+            } catch (Exception ignored){
             }
         }
         if (Math.abs(element.ends[2]) == 1) {
@@ -112,7 +112,7 @@ public class Level extends Group {
                     neighbor.ends[3] = 1;
                     neighbor.truePosition();
                 }
-            } catch (Exception ex){
+            } catch (Exception ignored){
             }
         }
 /////////////////////////////////////////////////
@@ -124,7 +124,7 @@ public class Level extends Group {
                     neighbor.ends[2] = -1; // соединены
                     neighbor.truePosition();
                 }
-            } catch (Exception ex){
+            } catch (Exception ignored){
             }
         }
         if (element.ends[1] == 1) {
@@ -135,7 +135,7 @@ public class Level extends Group {
                     neighbor.ends[3] = -1;
                     neighbor.truePosition();
                 }
-            } catch (Exception ex){
+            } catch (Exception ignored){
             }
         }
         if (element.ends[2] == 1) {
@@ -146,7 +146,7 @@ public class Level extends Group {
                     neighbor.ends[0] = -1;
                     neighbor.truePosition();
                 }
-            } catch (Exception ex){
+            } catch (Exception ignored){
             }
         }
         if (element.ends[3] == 1) {
@@ -157,7 +157,7 @@ public class Level extends Group {
                     neighbor.ends[1] = -1;
                     neighbor.truePosition();
                 }
-            } catch (Exception ex){
+            } catch (Exception ignored){
             }
         }
 /////////////////////////////////////////////////////
@@ -174,7 +174,7 @@ public class Level extends Group {
                     if (elements[i][j].trueElement) {
                         trueElementCount += 1;
                     }
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 }
             }
         }
@@ -190,7 +190,7 @@ public class Level extends Group {
                     System.out.println(elements[i][j]);
                 }
             }
-        } catch (Exception ex){
+        } catch (Exception ignored){
         }
     }
 
@@ -203,7 +203,7 @@ public class Level extends Group {
     }
     static public String getLevel(int levelNumber){
         try {
-            file = Gdx.files.absolute("C:\\Users\\atavl\\OneDrive\\Рабочий стол\\учеба\\Парадигмы программирования\\Курсовая\\Drop\\assets\\level_"+Integer.toString(levelNumber)+".txt");
+            file = Gdx.files.internal("level_"+Integer.toString(levelNumber)+".txt");
             newLevelName = file.readString();
             return newLevelName;
         } catch (Exception ex){

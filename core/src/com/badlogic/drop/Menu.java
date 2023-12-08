@@ -23,10 +23,6 @@ public class Menu implements Screen {
     Stage stage;
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
-    float gameWidth = 1920;
-    float gameHeight = screenHeight / (screenWidth / gameWidth);
-    static FileHandle file;
-    static String level;
     public static Texture backgroundTexture;
     public static Sprite backgroundSprite;
     private SpriteBatch spriteBatch;
@@ -34,7 +30,7 @@ public class Menu implements Screen {
 
     public Menu(final Drop game) {
         this.game = game;
-        stage = new Stage(new FitViewport(gameWidth, gameHeight));
+        stage = new Stage(new FitViewport(screenWidth, screenHeight));
 
         Gdx.input.setInputProcessor(stage);
 
@@ -53,7 +49,13 @@ public class Menu implements Screen {
 //        textButtonStyle.checked = skin.newDrawable("white", Color.GREEN);
         textButtonStyle.over = skin.newDrawable("white", 0.5f, 0.5f, 0.5f, 0.5f);
         textButtonStyle.font = skin.getFont("default");
-//        textButtonStyle.font.getData().scale(1.0f);
+
+        float weightSize = Gdx.graphics.getWidth() / Gdx.graphics.getPpcX();
+        float heightSize = Gdx.graphics.getHeight() / Gdx.graphics.getPpcX();
+//        textButtonStyle.font.getData().scale(dpi);
+        System.out.println(weightSize);
+        System.out.println(heightSize);
+//        textButtonStyle.font.getData().setScale(dpi,dpi);
         skin.add("default", textButtonStyle);
 
         Table table = new Table();
@@ -90,6 +92,7 @@ public class Menu implements Screen {
 
             }
         });
+
         table.add(button);
         table.row();
         table.add(button2);
@@ -100,18 +103,18 @@ public class Menu implements Screen {
 
 //        table.add(new Image(skin.newDrawable("white", Color.RED))).size(64);
 
-        backgroundTexture = new Texture(Gdx.files.absolute("background.jpg"));
-        backgroundRegion = new TextureRegion(backgroundTexture);
-        backgroundSprite =new Sprite(backgroundRegion);
-        spriteBatch = new SpriteBatch();
+//        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
+//        backgroundRegion = new TextureRegion(backgroundTexture);
+//        backgroundSprite =new Sprite(backgroundRegion);
+//        spriteBatch = new SpriteBatch();
 
     }
 
     @Override
     public void render(float delta) {
-        spriteBatch.begin();
-        spriteBatch.draw(backgroundSprite,0,0);
-        spriteBatch.end();
+//        spriteBatch.begin();
+//        spriteBatch.draw(backgroundSprite,0,0);
+//        spriteBatch.end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -139,6 +142,7 @@ public class Menu implements Screen {
 
     @Override
     public void dispose() {
+        spriteBatch.dispose();
         stage.dispose();
         skin.dispose();
         game.dispose();

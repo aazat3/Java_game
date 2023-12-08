@@ -25,17 +25,16 @@ public class My_game implements Screen {
     float gameWidth = 1920;
     float gameHeight = screenHeight / (screenWidth / gameWidth);
     Level level;
-    private Stage stage;
+    private final Stage stage;
     static int levelNumber;
     Skin skin;
     public static Texture backgroundTexture;
     public static Sprite backgroundSprite;
-    private SpriteBatch spriteBatch;
-    private TextureRegion backgroundRegion;
+    private final SpriteBatch spriteBatch;
 
     public My_game(final Drop game, int newLevelNumber) {
-        this.levelNumber = newLevelNumber;
-        this.game = game;
+        My_game.levelNumber = newLevelNumber;
+        My_game.game = game;
         stage = new Stage(new  FitViewport(gameWidth, gameHeight));
         Gdx.input.setInputProcessor(stage);
 
@@ -55,11 +54,14 @@ public class My_game implements Screen {
         textButtonStyle.font = skin.getFont("default");
 
         skin.add("default", textButtonStyle);
-
-        final TextButton button = new TextButton("Menu!", skin);
+        float dpi = Gdx.graphics.getDensity();
+//        System.out.println(dpi);
+        textButtonStyle.font.getData().scale(dpi);
+//        final TextButton button = new TextButton("Menu!", skin);
+        String dpiString = Float.toString(dpi);
+        final TextButton button = new TextButton(dpiString, skin);
         button.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                System.out.println("Clicked! Is checked: " + button.isChecked());
                 My_game.completeLevel(); // Не забыть освободить память
 
             }
@@ -79,8 +81,8 @@ public class My_game implements Screen {
         stage.addActor(table);
 
 
-        backgroundTexture = new Texture(Gdx.files.absolute("background.jpg"));
-        backgroundRegion = new TextureRegion(backgroundTexture);
+        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
+        TextureRegion backgroundRegion = new TextureRegion(backgroundTexture);
         backgroundSprite =new Sprite(backgroundRegion);
         spriteBatch = new SpriteBatch();
     }
