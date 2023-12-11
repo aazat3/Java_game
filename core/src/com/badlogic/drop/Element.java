@@ -46,22 +46,21 @@ public class Element extends Actor{
         for (int end : ends)
             falsePosition += end;
         float dpi = Gdx.graphics.getDensity();
+        dpi = (float) Math.sqrt(dpi);
+
+//        int dpi = 1;
         this.x = x;
         this.y = y;
-        setX(x*50*dpi);
-        setY(y*50*dpi);
+        setX(x*70*dpi-35*dpi);
+        setY(y*70*dpi-35*dpi);
         Texture texture = new Texture(Gdx.files.internal(pathImage));
         region = new TextureRegion(texture);
-        setBounds(getX(), getY(),
-                region.getRegionWidth(), region.getRegionHeight());
-        image = new Image(region);
-        image.setPosition(x*dpi, y*dpi);
-        image.setOrigin(image.getWidth()/2,image.getHeight()/2);
+        setBounds(getX(), getY(), region.getRegionWidth(), region.getRegionHeight());
+
         addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 addRotation();
                 animate += 1;
-                System.out.println(animate);
                 return true;
             }
             public boolean mouseMoved (InputEvent event, float x, float y) {
@@ -69,7 +68,7 @@ public class Element extends Actor{
                 return true;
             }
         });
-        this.setSize(50*dpi,50*dpi);
+        this.setSize(70*dpi,70*dpi);
         animate = 0;
     }
 
@@ -84,7 +83,6 @@ public class Element extends Actor{
             rotationAnimation();
         }
     }
-
 
     public Actor hit (float x, float y, boolean touchable) {
         if (touchable && getTouchable() != Touchable.enabled) return null;
@@ -108,13 +106,6 @@ public class Element extends Actor{
 
     }
     void addRotation() {
-
-//        if (position >= 0) {
-//            position -= 10;
-//        } else {
-//            position -= 10 + 40;
-//        }
-
         int z = Math.abs(ends[0]);
         ends[0] = Math.abs(ends[3]);
         ends[3] = Math.abs(ends[2]);
@@ -124,24 +115,14 @@ public class Element extends Actor{
 
     }
     void rotationAnimation() {
-//        MoveToAction action = new MoveToAction();
-//        action.setPosition(x+=1, y);
-//        this.addAction(action);
-//        if (position >= 0) {
-//            position -= 1;
-//        } else {
-//            position -= 1 + 4;
-//        }
         if (position >= 0) {
             position -= 1;
         } else {
-//            position = 4;
             position -= 1 + 40;
         }
         if (Math.abs(position % 10) < 0.1f){
             animate -= 1;
-//            position = Math. round(position);
-//            checkRotation();
+
         }
 
     }

@@ -26,6 +26,7 @@ public class Level extends Group {
     static int trueElementCount;
     static int elementCount;
     Group group;
+    int groupSize;
     static int levelNumber;
     static String levelInfo;
     static String newLevelName;
@@ -51,9 +52,19 @@ public class Level extends Group {
 //            element.addRotation();
         }
         elementCount = parts.length/3;
-        group.setOrigin(250, 250);
+        groupSize = (int) Math.sqrt(elementCount);
+        float dpi = Gdx.graphics.getDensity();
+        dpi = (float) Math.sqrt(dpi);
+        int evenGroup = groupSize % 2 - 1;
+//        int dpi = 1;
+//        group.setOrigin(250, 250);
 //        group.setPosition(1920/2Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
-        group.setPosition(screenWidth/2-70*5, screenHeight/2-70*5);
+//        group.setPosition(screenWidth/2-elementCount*70*dpi, screenHeight/2-elementCount*70*dpi);
+//        group.setPosition(screenWidth/2-elementCount*35*dpi, screenHeight/2-elementCount*35*dpi);
+//        group.setPosition(screenWidth, screenHeight);
+
+
+        group.setPosition(screenWidth/2-(10-evenGroup)*35*dpi, screenHeight/2-(10-evenGroup)*35*dpi);
         allElementCheck();
 
     }

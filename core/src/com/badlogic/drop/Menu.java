@@ -27,35 +27,36 @@ public class Menu implements Screen {
     public static Sprite backgroundSprite;
     private SpriteBatch spriteBatch;
     private TextureRegion backgroundRegion;
-
+    BitmapFont font;
     public Menu(final Drop game) {
         this.game = game;
         stage = new Stage(new FitViewport(screenWidth, screenHeight));
-
         Gdx.input.setInputProcessor(stage);
-
-        skin = new Skin();
 
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
         pixmap.fill();
-        skin.add("white", new Texture(pixmap));
 
-        skin.add("default", new BitmapFont());
+        skin = new Skin();
+        font = new BitmapFont(Gdx.files.internal("myfont.fnt"));
+        skin.add("white", new Texture(pixmap));
+        skin.add("default", font);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 //        textButtonStyle.up = skin.newDrawable("white",0.5f, 0.5f, 0.5f, 0.5f);
 //        textButtonStyle.down = skin.newDrawable("white", Color.YELLOW);
 //        textButtonStyle.checked = skin.newDrawable("white", Color.GREEN);
-        textButtonStyle.over = skin.newDrawable("white", 0.5f, 0.5f, 0.5f, 0.5f);
+        textButtonStyle.over = skin.newDrawable("white", 0.5f, 0.5f, 0.5f, 0.2f);
         textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+
+        float dpi = Gdx.graphics.getDensity();
+        dpi = (float) Math.sqrt(dpi);
 
         float weightSize = Gdx.graphics.getWidth() / Gdx.graphics.getPpcX();
         float heightSize = Gdx.graphics.getHeight() / Gdx.graphics.getPpcX();
 //        textButtonStyle.font.getData().scale(dpi);
-        System.out.println(weightSize);
-        System.out.println(heightSize);
-//        textButtonStyle.font.getData().setScale(dpi,dpi);
+        textButtonStyle.font.getData().setScale(dpi,dpi);
         skin.add("default", textButtonStyle);
 
         Table table = new Table();
@@ -87,7 +88,6 @@ public class Menu implements Screen {
         final TextButton buttonExit = new TextButton("Exit", skin);
         buttonExit.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                System.out.println("Clicked! Is checked: " + buttonExit.isChecked());
                 dispose();
 
             }
@@ -103,18 +103,18 @@ public class Menu implements Screen {
 
 //        table.add(new Image(skin.newDrawable("white", Color.RED))).size(64);
 
-//        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
-//        backgroundRegion = new TextureRegion(backgroundTexture);
-//        backgroundSprite =new Sprite(backgroundRegion);
-//        spriteBatch = new SpriteBatch();
+        backgroundTexture = new Texture(Gdx.files.internal("background.jpg"));
+        backgroundRegion = new TextureRegion(backgroundTexture);
+        backgroundSprite =new Sprite(backgroundRegion);
+        spriteBatch = new SpriteBatch();
 
     }
 
     @Override
     public void render(float delta) {
-//        spriteBatch.begin();
-//        spriteBatch.draw(backgroundSprite,0,0);
-//        spriteBatch.end();
+        spriteBatch.begin();
+        spriteBatch.draw(backgroundSprite,0,0);
+        spriteBatch.end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
