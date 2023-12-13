@@ -12,18 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Element extends Actor{
-    Image image;
-    int x;
-    int y;
-    TextureRegion region;
-    int position;
-    float animatedPosition;
-    int animate;
-    int falsePosition;
-    int truePosition;
-    int[] ends;
-    boolean trueElement = false;
-    boolean mouseM = false;
+
+    protected int x;
+    protected int y;
+    private final TextureRegion region;
+    private int position;
+    private int animate;
+    private int falsePosition;
+    private int truePosition;
+    protected int[] ends;
+    protected boolean trueElement = false;
+    protected boolean mouseM = false;
+    private float dpi;
 
     Element(int x, int y, String pathImage){
         switch (pathImage) {
@@ -45,10 +45,9 @@ public class Element extends Actor{
         }
         for (int end : ends)
             falsePosition += end;
-        float dpi = Gdx.graphics.getDensity();
+        dpi = Gdx.graphics.getDensity();
         dpi = (float) Math.sqrt(dpi);
 
-//        int dpi = 1;
         this.x = x;
         this.y = y;
         setX(x*70*dpi-35*dpi);
@@ -74,7 +73,6 @@ public class Element extends Actor{
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
-        Color color = getColor();
 //        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         batch.setColor(1f, 1f, 1f, 0.6f); // тут цвета элементов
         batch.draw(region, getX(), getY(), getOriginX()+getWidth()/2, getOriginY()+getHeight()/2,

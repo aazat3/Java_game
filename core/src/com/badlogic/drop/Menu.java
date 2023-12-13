@@ -2,9 +2,7 @@ package com.badlogic.drop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -12,22 +10,22 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Menu implements Screen {
 
-    Drop game;
-    Skin skin;
-    Stage stage;
-    float screenWidth = Gdx.graphics.getWidth();
-    float screenHeight = Gdx.graphics.getHeight();
-    public static Texture backgroundTexture;
-    public static Sprite backgroundSprite;
+    private Drop game;
+    private Skin skin;
+    private Stage stage;
+    private float screenWidth = Gdx.graphics.getWidth();
+    private float screenHeight = Gdx.graphics.getHeight();
+    private static Texture backgroundTexture;
+    private static Sprite backgroundSprite;
     private SpriteBatch spriteBatch;
     private TextureRegion backgroundRegion;
-    BitmapFont font;
+    private BitmapFont font;
+    private float dpi;
     public Menu(final Drop game) {
         this.game = game;
         stage = new Stage(new FitViewport(screenWidth, screenHeight));
@@ -50,11 +48,9 @@ public class Menu implements Screen {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
 
-        float dpi = Gdx.graphics.getDensity();
+        dpi = Gdx.graphics.getDensity();
         dpi = (float) Math.sqrt(dpi);
 
-        float weightSize = Gdx.graphics.getWidth() / Gdx.graphics.getPpcX();
-        float heightSize = Gdx.graphics.getHeight() / Gdx.graphics.getPpcX();
 //        textButtonStyle.font.getData().scale(dpi);
         textButtonStyle.font.getData().setScale(dpi,dpi);
         skin.add("default", textButtonStyle);

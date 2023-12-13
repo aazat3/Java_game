@@ -3,7 +3,6 @@ package com.badlogic.drop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,26 +13,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class My_game implements Screen {
-    static Drop game;
-    float screenWidth = Gdx.graphics.getWidth();
-    float screenHeight = Gdx.graphics.getHeight();
-
-    Level level;
+    private static Drop game;
+    private float screenWidth = Gdx.graphics.getWidth();
+    private float screenHeight = Gdx.graphics.getHeight();
+    private Level level;
     private final Stage stage;
-    static int levelNumber;
-    Skin skin;
-    public static Texture backgroundTexture;
-    public static Sprite backgroundSprite;
+    private static int levelNumber;
+    private Skin skin;
+    private static Texture backgroundTexture;
+    private static Sprite backgroundSprite;
     private final SpriteBatch spriteBatch;
     BitmapFont font;
+    private float dpi;
 
-    public My_game(final Drop game, int newLevelNumber) {
-        My_game.levelNumber = newLevelNumber;
+    public My_game(final Drop game, int levelNumber) {
+
+
+        My_game.levelNumber = levelNumber;
         My_game.game = game;
         stage = new Stage(new  FitViewport(screenWidth, screenHeight));
         Gdx.input.setInputProcessor(stage);
@@ -55,12 +54,14 @@ public class My_game implements Screen {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
 
-        float dpi = Gdx.graphics.getDensity();
+        dpi = Gdx.graphics.getDensity();
         dpi = (float) Math.sqrt(dpi);
 
 //        System.out.println(dpi);
 //        textButtonStyle.font.getData().scale(dpi);
         final TextButton button = new TextButton("Menu", skin);
+        final TextButton button2 = new TextButton("Click on an item to treat it.\nThe goal of the game is to connect all the elements.", skin);
+
 //        final TextButton button = new TextButton(dpiString, skin);
         button.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
@@ -73,20 +74,23 @@ public class My_game implements Screen {
         table.setFillParent(true);
 //        table.setDebug(true);
 
-        level = new Level(game, levelNumber);
-        table.center();
-        table.addActor(level.group);
-
+        if(levelNumber == 1){
+            table.top().center();
+            table.add(button2).expandX();
+        }
         table.top().right();
         table.add(button).width(100).height(40).padTop(50).padRight(50);
 
+        level = new Level(game, levelNumber);
         stage.addActor(table);
+        stage.addActor(level.group);
 
 
         backgroundTexture = new Texture(Gdx.files.internal("background.jpg"));
         TextureRegion backgroundRegion = new TextureRegion(backgroundTexture);
         backgroundSprite =new Sprite(backgroundRegion);
         spriteBatch = new SpriteBatch();
+
 
     }
 

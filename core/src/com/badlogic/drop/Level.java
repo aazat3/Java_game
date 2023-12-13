@@ -19,20 +19,22 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.Random;
 
 public class Level extends Group {
-    static Drop game;
-    Element element;
-    static Element neighbor;
-    static Element[][] elements;
-    static int trueElementCount;
-    static int elementCount;
-    Group group;
-    int groupSize;
-    static int levelNumber;
-    static String levelInfo;
-    static String newLevelName;
-    static FileHandle file;
-    float screenWidth = Gdx.graphics.getWidth();
-    float screenHeight = Gdx.graphics.getHeight();
+    private static Drop game;
+    private Element element;
+    private static Element neighbor;
+    private static Element[][] elements;
+    private static int trueElementCount;
+    private static int elementCount;
+    protected Group group;
+    private int groupSize;
+    private static int levelNumber;
+    private static String levelInfo;
+    private static String newLevelName;
+    private static FileHandle file;
+    private float screenWidth = Gdx.graphics.getWidth();
+    private float screenHeight = Gdx.graphics.getHeight();
+    private float dpi;
+    private int evenGroup;
 
     Level(Drop game, int levelNumber){
         Level.game = game;
@@ -53,9 +55,9 @@ public class Level extends Group {
         }
         elementCount = parts.length/3;
         groupSize = (int) Math.sqrt(elementCount);
-        float dpi = Gdx.graphics.getDensity();
+        dpi = Gdx.graphics.getDensity();
         dpi = (float) Math.sqrt(dpi);
-        int evenGroup = groupSize % 2 - 1;
+        evenGroup = groupSize % 2 - 1;
 //        int dpi = 1;
 //        group.setOrigin(250, 250);
 //        group.setPosition(1920/2Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
@@ -191,17 +193,6 @@ public class Level extends Group {
         }
         if(trueElementCount == elementCount){
             nextLevel();
-        }
-    }
-
-    void getLevelInfo(){
-        try {
-            for (int i = 0; i < elements.length; i+=1) {
-                for (int j = 0; j < elements[i].length; j += 1) {
-                    System.out.println(elements[i][j]);
-                }
-            }
-        } catch (Exception ignored){
         }
     }
 
